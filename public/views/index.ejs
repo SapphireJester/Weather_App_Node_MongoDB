@@ -1,0 +1,51 @@
+<!--
+    Zane Taylor
+    CIS 234
+    Project 2
+    Index Page
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- shared header markup is included into the file using ejs -->
+    <%- include('layouts/shared_head'); -%>
+    <title>New Lenox Temperature App - Home</title>
+</head>
+<!-- call function to set copyright text in the footer when the body loads -->
+<body onload="set_footer()">
+    <div class="container-fluid">
+        <div class="row" id="navbarRow">
+            <!-- navbarRow's columns is included into the file using ejs -->
+            <%- include('layouts/navbar'); -%>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <!-- Page Title and information about the website's purpose -->
+                <h1>New Lenox Temperature App Home</h1>
+                <p>
+                    Welcome to the New Lenox Temperature App. Click on the links above or below to either look up the
+                    temperatures in New Lenox, view data for entire months, or to insert and view temperatures in your area.
+                </p>
+                <!-- links to the other website pages (excludes this one) -->
+                <ul id="indexList">
+                    <li>
+                        <a class="link-primary" href="/your_data">Your Forecast Data</a>
+                    </li>
+                    <li>
+                        <a class="link-primary" href="/lookup">New Lenox Temperature Lookup</a>
+                    </li>
+                    <li>
+                        <a class="link-primary" href="/monthly">New Lenox Monthly Temperaures</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <footer class="row" id="footerIndex">
+            <!-- the footer row's columns are included into the file using ejs -->
+            <%- include('layouts/footer'); -%>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!--
+    Zane Taylor
+    CIS 234
+    Project 2
+    New Lenox Data Lookup Result Page
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- shared header markup is included into the file using ejs -->
+    <%- include('layouts/shared_head'); -%>
+    <title>New Lenox Temperature App - New Lenox Temperature Lookup - Result</title>
+</head>
+<!-- call function to set copyright text in the footer when the body loads -->
+<body onload="set_footer()">
+    <div class="container-fluid">
+        <div class="row" id="navbarRow">
+            <!-- navbarRow's columns is included into the file using ejs -->
+            <%- include('layouts/navbar'); -%>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <!-- Page Title and information on how to interact with this page's application, which involves 
+                    looking up a date to view the temperature data in New Lenox on that date -->
+                <h1>New Lenox Temperature Lookup</h1>
+                <p>
+                    Enter a date below and click the Submit Date button to discover the temperature high, low,
+                    and average for that date in New Lenox, IL, according to data from
+                    <a href="https://www.wunderground.com/">Weather Underground</a>. Only dates from January 1, 2022
+                    to April 30, 2022 (inclusive) are available.
+                </p>
+
+                <!-- Form containing the date picker object, submit date button, and reset button, all used for 
+                    interacting with the application. The Submit Date button submits an http request with the
+                    form data when clicked. -->
+                <form action="/lookup/query" method="post">
+                    <label for="dateID">Date:</label><input type="date" class="form-control" id="dateID" name="date" required="required">
+                    <br />
+                    <input type="submit" class="btn btn-primary text-light" id="lookupButton" value="Submit Date">
+                    <input type="reset" class="btn btn-secondary text-light">
+                </form>
+
+                <!-- Div that displays a message stating the user submitted a date with no temperature data.
+                    The div is not displayed if the date submitted has temperature data in the database. -->
+                <% if(query_result.date === "") { %>
+                <div id="displayNoMatch">There are no records for the date you entered. Please enter a valid date and try again.</div>
+                <% } %>
+                <!-- Table that contains the temperature data of a date. It is not displayed if the submitted date
+                    has no temperature data in the database. -->
+                <% if(query_result.date !== "") { %>
+                <table id="displayTable">
+                    <tr>
+                        <th class='leftSideTable'>Date</th>
+                        <th class='leftSideTable'>High Temperature</th>
+                        <th class='leftSideTable'>Low Temperature</th>
+                        <th class='leftSideTable'>Average Temperature</th>
+                    </tr>
+                    <tr>
+                        <% var reformattedDateString = dateStringReformat(query_result.date)%>
+                        <td class='leftSideTable' id="displayDate"><%= reformattedDateString %></td>
+                        <td class='rightSideTable' id="displayHigh"><%= query_result.high_temperture %></td>
+                        <td class='rightSideTable' id="displayLow"><%= query_result.low_temperature %></td>
+                        <td class='rightSideTable' id="displayAverage"><%= query_result.average_temperature %></td>
+                    </tr>
+                </table>
+                <% } %>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <!-- Adjust the footer's padding if the date queried by the user has temperature data, for styling purposes -->
+        <footer class="row" id="footerLookupResult" <% if(query_result.date != "") { %> style="padding-top:229.5px"<% } %> >
+            <!-- the footer row's columns are included into the file using ejs -->
+            <%- include('layouts/footer'); -%>
+        </footer>
+    </div>
+</body>
+</html>

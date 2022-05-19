@@ -1,0 +1,55 @@
+<!--
+    Zane Taylor
+    CIS 234
+    Project 2
+    New Lenox Monthly Data View Page - Month Selection
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- shared header markup is included into the file using ejs -->
+    <%- include('layouts/shared_head'); -%>
+    <title>New Lenox Temperature App - New Lenox Temperatures by Month</title>
+</head>
+<!-- call function to set copyright text in the footer when the body loads -->
+<body onload="set_footer()">
+    <div class="container-fluid">
+        <div class="row" id="navbarRow">
+            <!-- navbarRow's columns is included into the file using ejs -->
+            <%- include('layouts/navbar'); -%>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <!-- Page Title and information on how to interact with this page's application, which involves selecting
+                    a month and displaying all the dates and temperature data for that month in the year 2022 -->
+                <h1>New Lenox Monthly Temperatures</h1>
+                <p>
+                    Choose a month below to view the temperatures for each day in that month for the year 2022.
+                    Note that only January, February, March, and April can be selected.
+                </p>
+
+                <!-- Form containing the selector object with four option objects, along with a submit month button.
+                    These are used to interact with the application. The button submits an http request with the
+                    form data when clicked. -->
+                <form action="/monthly/query" method="post">
+                    <label for="monthID">Select a Month:</label>
+                    <select class="form-control" id="monthID" name="month" required="required">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                    </select>
+                    <br />
+                    <input type="submit" class="btn btn-primary text-light" id="monthButton" value="Submit Month">
+                </form>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <footer class="row" id="footerMonthly">
+            <!-- the footer row's columns are included into the file using ejs -->
+            <%- include('layouts/footer'); -%>
+        </footer>
+    </div>
+</body>
+</html>

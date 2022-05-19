@@ -1,0 +1,64 @@
+<!--
+    Zane Taylor
+    CIS 234
+    Project 2
+    Your Data Page (Edit Data)
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- shared header markup is included into the file using ejs -->
+    <%- include('layouts/shared_head'); -%>
+    <title>New Lenox Temperature App - Your Forecast Data - Edit</title>
+</head>
+<!-- call function to set copyright text in the footer when the body loads -->
+<body onload="set_footer()">
+    <div class="container-fluid">
+        <div class="row" id="navbarRow">
+            <!-- navbarRow's columns is included into the file using ejs -->
+            <%- include('layouts/navbar'); -%>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <!-- Page Title and information on how to interact with this page's application, which involves using the
+                form to edit forecast records consisting of a date, temperature, location, and weather pattern. These
+                changes are saved to the database, overwriting the original (a new record is NOT created). Once the
+                record changes are either saved or cancelled, the user is returned to the previous page (your_data.ejs) -->
+                <h1>Edit Your Forecast Data</h1>
+                <p>
+                    Enter forecast data for the fields you wish to change, then save the changes by clicking the Save
+                    Data button or cancel editing by clicking the Cancel Editing button. Clicking either will take you
+                    back to the previous page.
+                </p>
+                <!-- Form containing the date picker object and three text input objects, all used to enter the fields for the
+                forecast records. There is also a button to save a record (Save Data) and a button to clear the input fields.
+                The Save Data button submits an http request with the form data when clicked.-->
+                <form action="/records/edit_save" method="post">
+                    <label for="yourDateID">Date:</label>
+                    <input type="date" class="form-control" id="yourDateID" name="date" required="required" value="<%= record_to_edit.date %>" title="Please select a Date">
+                    <!-- No returns for the below string because the returns will be displayed when used as a title.
+                    Using ejs so my input tag isn't made longer -->
+                    <% var tem_string = "Please fill out the Temperature field. Valid characters are digits, a period, and the minus sign. Minus sign can only be at the front. Period cannot be placed after minus sign. There can only be a maximum of one period and minus sign for each."%>
+                    <br /><label for="yourTemperatureID">Temperature:&nbsp;</label>
+                    <!-- pattern explanation: begins with 0 or 1 minus signs, then have any number of digits with at least 1, then 0 or 1 decimal points, then end with 0 or more digits-->
+                    <input type="text" id="yourTemperatureID" name="temperature" required="required" value="<%= record_to_edit.temperature %>" pattern="[-]?[0-9]+\.?[0-9]*" title="<%=tem_string%>">
+                    <label for="yourLocationID">&nbsp;Location:&nbsp;</label>
+                    <input type="text" id="yourLocationID" name="location" required="required" value="<%= record_to_edit.location %>" title="Please fill out the Location field.">
+                    <label for="yourWeatherID">&nbsp;Weather:&nbsp;</label>
+                    <input type="text" id="yourWeatherID" name="weather_pattern" required="required" value="<%= record_to_edit.weather_pattern %>" title="Please fill out the Weather Pattern field.">
+                    <input type="hidden" name="_id" value="<%= record_to_edit._id %>">
+                    <br /><input type="submit" class="btn btn-primary text-light yourDataButton" id="saveButton" value="Save Data">
+                    <button type="button" id="cancelButton"  class="btn btn-warning yourDataButton" onclick="returnToYourData()">Cancel Editing</button>
+                    <input type="reset" class="btn btn-secondary text-light yourDataButton">
+                </form>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <footer class="row" id="yourFooterEdit">
+            <!-- the footer row's columns are included into the file using ejs -->
+            <%- include('layouts/footer'); -%>
+        </footer>
+    </div>
+</body>
+</html>

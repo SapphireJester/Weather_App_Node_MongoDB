@@ -1,0 +1,110 @@
+<!--
+    Zane Taylor
+    CIS 234
+    Project 2
+    Your Data Page (View, Add, and Delete Data)
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- shared header markup is included into the file using ejs -->
+    <%- include('layouts/shared_head'); -%>
+    <title>New Lenox Temperature App - Your Forecast Data</title>
+</head>
+<!-- call function to set copyright text in the footer when the body loads -->
+<body onload="read_keys(<%= all_records.length %>)">
+    <div class="container-fluid">
+        <div class="row" id="navbarRow">
+            <!-- navbarRow's columns is included into the file using ejs -->
+            <%- include('layouts/navbar'); -%>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <!-- Page Title and information on how to interact with this page's application, which involves using the
+                form to create forecast records consisting of a date, temperature, location, and weather pattern. These
+                records are saved to a database and can be deleted, updated, and retrieved from it. Multiple can be created
+                and all records are viewed on this page. Note that editing a record will take the user to a different page. -->
+                <h1>Your Forecast Data</h1>
+                <p>
+                    Enter and view your own weather forecast data. Type in a date, temperature, location, and weather patterns,
+                    and then save it by clicking the save button. From there, you can edit the data, delete it, or add more.
+                    Editing a record will take you to a separate page.
+                </p>
+                <!-- Form containing the date picker object and three text input objects, all used to enter the fields for the
+                forecast records. There is also a button to save a record (Save Data) and a button to clear the input fields.
+                The Save Data button submits an http request with the form data when clicked.-->
+                <form action="/records/save" method="post" name="yourForm" >
+                    <label for="yourDateID">Date:</label>
+                    <input type="date" class="form-control" id="yourDateID" name="date" required="required" title="Please select a Date">
+                    <!-- No returns for the below string because the returns will be displayed when used as a title.
+                    Using ejs so my input tag isn't made longer -->
+                    <% var tem_string = "Please fill out the Temperature field. Valid characters are digits, a period, and the minus sign. Minus sign can only be at the front. Period cannot be placed after minus sign. There can only be a maximum of one period and minus sign for each."%>
+                    <br /><label for="yourTemperatureID">Temperature:&nbsp;</label>
+                    <!-- pattern explanation: begins with 0 or 1 minus signs, then have any number of digits with at least 1, then 0 or 1 decimal points, then end with 0 or more digits-->
+                    <input type="text" id="yourTemperatureID" name="temperature" required="required" pattern="[-]?[0-9]+\.?[0-9]*" title="<%=tem_string%>">
+                    <label for="yourLocationID">&nbsp;Location:&nbsp;</label>
+                    <input type="text" id="yourLocationID" name="location" required="required" title="Please fill out the Location field.">
+                    <label for="yourWeatherID">&nbsp;Weather:&nbsp;</label>
+                    <input type="text" id="yourWeatherID" name="weather_pattern" required="required" title="Please fill out the Weather Pattern field.">
+                    <br /><input type="submit" class="btn btn-primary text-light yourDataButton" id="saveButton" value="Save Data">
+                    <input type="reset" class="btn btn-secondary text-light yourDataButton">
+                </form>
+                <!-- Div that displays a message stating the number of records that are saved to the database -->
+                <div id="key_length"></div>
+                <!-- Table that is used to display all the forecast records. The table by default consists only of the table
+                headers for each column. More table rows are added dynamically for every record in the database. The table
+                is hidden when there are no records. Buttons to edit or delete an individual record are also created. These
+                buttons submit an http request with the record's object id (stored in a hidden input field) when clicked.
+                Chapter 8 discusses using the Action objects. -->
+                <% if (all_records.length >0) { %>
+                <table id="yourDisplayTable">
+                    <tr>
+                        <th class='leftSideTable'>Date</th>
+                        <th class='leftSideTable'>Temperature</th>
+                        <th class='leftSideTable'>Location</th>
+                        <th class='leftSideTable'>Weather</th>
+                    </tr>
+                <% }  %>
+                <!-- display forecast records here -->
+                <% for (var x = 0; x< all_records.length; x++){ %>
+                    <% var reformattedDateString = dateStringReformat(all_records[x].date)%>
+                    <tr>
+                        <td class='leftSideTable recordDate'><%= reformattedDateString %></td>
+                        <td class='leftSideTable recordTemperature'><%= all_records[x].temperature + "\u2109" %></td>
+                        <td class='leftSideTable recordLocation'><%= all_records[x].location %></td>
+                        <td class='leftSideTable recordWeather'><%= all_records[x].weather_pattern %></td>
+                        <td class='leftSideTable'>
+                            <form action="/records/edit_one" method="post">
+                                <input type="hidden" name="_id" value="<%= all_records[x]._id %>">
+                                <input type="submit" class="btn btn-warning" value="View/Edit">
+                            </form>
+                        </td>
+                        <td class='leftSideTable'>
+                            <form action="/records/remove_one" method="post">
+                                <input type="hidden" name="_id" value="<%= all_records[x]._id %>">
+                                <input type="submit" class="btn btn-outline-danger" value="Delete/Remove">
+                            </form>
+                        </td>
+                    </tr>
+                <% } %>
+                </table>
+                <!-- Text describing a button that deletes all records when clicked, along with the described button.
+                The button submits an http request with the form data when clicked. -->
+                <br />
+                <% if (all_records.length >0) { %>
+                    <form action="/records/clear_all" method="post">
+                        Remove All Records?&nbsp;
+                        <input type="submit" class="btn btn-danger" value="Erase All Records"><br />
+                    </form>
+                <% }  %>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <footer class="row" id="yourFooter">
+            <!-- the footer row's columns are included into the file using ejs -->
+            <%- include('layouts/footer'); -%>
+        </footer>
+    </div>
+</body>
+</html>

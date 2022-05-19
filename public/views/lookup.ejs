@@ -1,0 +1,52 @@
+<!--
+    Zane Taylor
+    CIS 234
+    Project 2
+    New Lenox Data Lookup Page
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- shared header markup is included into the file using ejs -->
+    <%- include('layouts/shared_head'); -%>
+    <title>New Lenox Temperature App - New Lenox Temperature Lookup</title>
+</head>
+<!-- call function to set copyright text in the footer when the body loads -->
+<body onload="set_footer()">
+    <div class="container-fluid">
+        <div class="row" id="navbarRow">
+            <!-- navbarRow's columns is included into the file using ejs -->
+            <%- include('layouts/navbar'); -%>
+        </div>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                <!-- Page Title and information on how to interact with this page's application, which involves 
+                    looking up a date to view the temperature data in New Lenox on that date -->
+                <h1>New Lenox Temperature Lookup</h1>
+                <p>
+                    Enter a date below and click the Submit Date button to discover the temperature high, low,
+                    and average for that date in New Lenox, IL, according to data from
+                    <a href="https://www.wunderground.com/">Weather Underground</a>. Only dates from January 1, 2022
+                    to April 30, 2022 (inclusive) are available.
+                </p>
+
+                <!-- Form containing the date picker object, submit date button, and reset button, all used for 
+                    interacting with the application. The Submit Date button submits an http request with the
+                    form data when clicked. -->
+                <form action="/lookup/query" method="post">
+                    <label for="dateID">Date:</label><input type="date" class="form-control" id="dateID" name="date" required="required">
+                    <br />
+                    <input type="submit" class="btn btn-primary text-light" id="lookupButton" value="Submit Date">
+                    <input type="reset" class="btn btn-secondary text-light">
+                </form>
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <footer class="row" id="footerLookup">
+            <!-- the footer row's columns are included into the file using ejs -->
+            <%- include('layouts/footer'); -%>
+        </footer>
+    </div>
+</body>
+</html>

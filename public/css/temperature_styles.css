@@ -1,0 +1,111 @@
+/* 
+    Zane Taylor
+    CIS 234
+    Project 2
+    Cascade Style Sheet
+    (for all ejs pages in the project)
+*/
+
+/* nav rules */
+.navbar, .nav-link {
+    background-color: lemonchiffon;
+}
+
+/* body rules */
+h1 {
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+.form-control {
+    width: 50%;
+}
+
+#indexList 
+{
+    list-style-type: none;
+}
+
+#indexList a
+{
+    text-decoration: none;
+    font-weight:600;
+}
+
+#key_length
+{
+    padding-top:1.0em;
+}
+
+.yourDataButton
+{
+    margin-top:1.2em;
+}
+
+/* footer rules */
+footer 
+{
+    text-align: center;
+}
+
+#footerIndex 
+{
+    padding-top: 343px;
+}
+
+#footerLookup, #footerMonthly 
+{
+    padding-top: 307.5px;
+}
+
+#footerLookupResult
+{
+    padding-top: 259.5px; /* padding for looking up a date with no data */
+    /* inline css with ejs is used to set the padding if the looked up date has data */
+}
+
+#footerMonthlyResult
+{
+    padding-top: 30px;
+    padding-bottom: 25px;
+}
+
+#yourFooter 
+{
+    padding-top: 195.5px;
+    /* padding for displaying 0 records */
+    /* readKey function in shared_functions.js will set padding for displaying other record amounts */
+}
+
+#yourFooterEdit
+{
+    padding-top: 259.5px;
+}
+
+/* display area and table rules */
+#displayNoMatch {
+    margin-top: 1.5em;
+}
+
+table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+
+table {
+    margin-top: 1.5em;
+}
+
+.leftSideTable {
+    padding-right: 1em;
+    padding-left: 1em;
+}
+
+.rightSideTable {
+    padding-right: 1em;
+    text-align: center;
+}
+
+#monthH2 {
+    padding-top: 0.8em;
+}
